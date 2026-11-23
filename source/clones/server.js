@@ -1,8 +1,8 @@
-import { createBareServer } from "./node_modules/.pnpm/node_modules/@nebula-services/bare-server-node/dist/createServer.js";
+import { createBareServer } from "@nebula-services/bare-server-node";
 import { createServer } from "http";
-import Fastify from "./node_modules/.pnpm/node_modules/fastify/fastify.js";
-import fastifyStatic from "./node_modules/.pnpm/node_modules/@fastify/static/index.js";
-import { join } from "node:path";
+import Fastify from "fastify";
+import fastifyStatic from "@fastify/static";
+import { dirname, join } from "node:path";
 import rspackConfig from "./rspack.config.ts";
 import { rspack } from "@rspack/core";
 import { fileURLToPath } from "node:url";
@@ -40,9 +40,8 @@ const fastify = Fastify({
     },
 });
 
-const libcurlDistPath = join(
-    fileURLToPath(new URL(".", import.meta.url)),
-    "./node_modules/.pnpm/node_modules/@mercuryworkshop/libcurl-transport/dist"
+const libcurlDistPath = dirname(
+    fileURLToPath(import.meta.resolve("@mercuryworkshop/libcurl-transport"))
 );
 
 fastify.register(fastifyStatic, {
